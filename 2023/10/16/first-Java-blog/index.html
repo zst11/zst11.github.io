@@ -28,9 +28,9 @@
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231017230325405.png">
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231018214238254.png">
 <meta property="article:published_time" content="2023-10-16T14:34:16.000Z">
-<meta property="article:modified_time" content="2023-10-18T14:14:45.658Z">
+<meta property="article:modified_time" content="2023-10-19T14:42:23.138Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="first-Java-blog">
+<meta property="article:tag" content="Java_Project01">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231017230325405.png">
     
@@ -241,8 +241,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-18 22:14:45</span>
-            <span class="mobile">2023-10-18 22:14:45</span>
+            <span class="desktop">2023-10-19 22:42:23</span>
+            <span class="mobile">2023-10-19 22:42:23</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -254,7 +254,7 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/first-Java-blog/">first-Java-blog</a>&nbsp;
+                        <a href="/tags/Java-Project01/">Java_Project01</a>&nbsp;
                     </li>
                 
             </ul>
@@ -399,7 +399,48 @@
 <li><p>将数据安全转换为list</p>
 <div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ins = socket.getInputStream();</span><br><span class="line">ois = <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(ins);</span><br><span class="line"><span class="type">Object</span> <span class="variable">object</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">Collection&lt;Environment&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(); <span class="comment">// LinkedList ?</span></span><br><span class="line"><span class="keyword">if</span> (object <span class="keyword">instanceof</span> Collection&lt;?&gt;)&#123;</span><br><span class="line">    Collection&lt;?&gt; l = (Collection&lt;?&gt;) object;</span><br><span class="line">    <span class="keyword">for</span> (Object o:l)&#123;</span><br><span class="line">        <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Environment)&#123;</span><br><span class="line">            list.add((Environment) o);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div></li>
 </ul>
-<h3 id="入库模块"><a href="#入库模块" class="headerlink" title="入库模块"></a>入库模块</h3><h3 id="日志模块"><a href="#日志模块" class="headerlink" title="日志模块"></a>日志模块</h3><h3 id="配置模块"><a href="#配置模块" class="headerlink" title="配置模块"></a>配置模块</h3><h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3>
+<h3 id="入库模块"><a href="#入库模块" class="headerlink" title="入库模块"></a>入库模块</h3><p>1、准备工作</p>
+<ul>
+<li><p>因为接收到得数据是一个月中每一天信息，所以我们可以在Navicat中使用存储过程建立31张表，实现如下（MySQL表是</p>
+<p>存储在虚拟机中得）</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">create database envir;</span><br><span class="line">create user &#x27;envir&#x27;@&#x27;%&#x27; identified by &#x27;envir&#x27;;</span><br><span class="line">grant all on envir.* to &#x27;envir&#x27;@&#x27;%&#x27;;</span><br><span class="line">-- set names utf8;</span><br><span class="line">use envir;</span><br><span class="line">-- 使用存储过程建表</span><br><span class="line">DROP PROCEDURE IF EXISTS create_table_do;</span><br><span class="line">delimiter //</span><br><span class="line">CREATE PROCEDURE create_table_do()</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE i INT DEFAULT 1;</span><br><span class="line">	WHILE i &lt; 32 DO</span><br><span class="line">		SET @STMT = CONCAT(&quot;DROP TABLE IF EXISTS `env_detail_&quot;,i,&quot;`;&quot;);</span><br><span class="line">		PREPARE STMT FROM @STMT; </span><br><span class="line">		EXECUTE STMT;</span><br><span class="line">		SET @STMT = CONCAT(&quot;CREATE TABLE IF NOT EXISTS `env_detail_&quot;,i,</span><br><span class="line">				&quot;`(`name` varchar(20) NOT NULL COMMENT &#x27;传感器名称&#x27;,</span><br><span class="line">				`srcId` varchar(5) NOT NULL COMMENT &#x27;发送端id&#x27;,</span><br><span class="line">				`desId` varchar(5) NOT NULL COMMENT &#x27;树莓派系统id&#x27;,</span><br><span class="line">				`devId` char(1) NOT NULL COMMENT &#x27;实验箱区域模块id&#x27;,</span><br><span class="line">				`sensorAddress` varchar(7) NOT NULL COMMENT &#x27;模块上传感器地址&#x27;,</span><br><span class="line">				`count` int(2) NOT NULL DEFAULT &#x27;1&#x27; COMMENT &#x27;传感器个数&#x27;,</span><br><span class="line">				`cmd`  varchar(5) NOT NULL  DEFAULT &#x27;3&#x27; COMMENT &#x27;指令标号(3表示需要接受数据  16表示需要发送数据)&#x27;,</span><br><span class="line">				`status` int(2) NOT NULL DEFAULT &#x27;1&#x27;  COMMENT &#x27;状态标示(默认为1表示成功)&#x27;,</span><br><span class="line">				`data` float(9,4) NOT NULL COMMENT &#x27;采集的数据&#x27;,</span><br><span class="line">				`gather_date` timestamp NOT NULL COMMENT &#x27;采集时间&#x27;)ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT=&#x27;数据详情日表&#x27;;&quot;</span><br><span class="line">				);</span><br><span class="line">		PREPARE STMT FROM @STMT; </span><br><span class="line">		EXECUTE STMT;</span><br><span class="line">    	SET i = i + 1;</span><br><span class="line">	END WHILE;</span><br><span class="line">END//</span><br><span class="line">CALL create_table_do();</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>JDBC的实现封装封装了工具类在util下，在Java与数据库连接时使用数据库连接池Druid</p>
+</li>
+</ul>
+<p>2、实现逻辑</p>
+<ul>
+<li><p>遍历从客户端拿到的集合</p>
+</li>
+<li><p>处理集合中的gatherDate，因为其是TimeStamp类型，使用Calender类获取到天数，根据天数插入到不同的表中</p>
+</li>
+<li><p>使用prepareStatement预处理</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String sql = &quot;insert into env_detail_&quot;+day+&quot; values(?,?,?,?,?,?,?,?,?,?)&quot;;</span><br></pre></td></tr></table></figure></div>
+</li>
+<li><p>在使用这种方式创建对象时进行优化只有当天数发生改变时才创建新的pst</p>
+</li>
+<li><p>使用批处理得方式进行提交</p>
+</li>
+</ul>
+<h3 id="日志模块"><a href="#日志模块" class="headerlink" title="日志模块"></a>日志模块</h3><p>使用日志输出来替代System输出</p>
+<p>1、日志的作用</p>
+<ul>
+<li>日志有不同的等级，可以做出不同的响应</li>
+<li>日志可以输出到文件夹以方便我们查看错误信息</li>
+</ul>
+<p>2、实现逻辑</p>
+<ul>
+<li><p>对log4j的配置文件进行完成（具体log4j怎样使用可以自行百度）</p>
+</li>
+<li><p>定义log接口，实现log接口，实现方法是直接掉API进行实现</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">debug</span><span class="params">(String msg)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">info</span><span class="params">(String msg)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">warn</span><span class="params">(String msg)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">error</span><span class="params">(String msg)</span>;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">fatal</span><span class="params">(String msg)</span>;</span><br></pre></td></tr></table></figure></div>
+
+
+</li>
+<li><p>将原先使用System输出的位置改为日志输出</p>
+</li>
+</ul>
+<h3 id="配置模块"><a href="#配置模块" class="headerlink" title="配置模块"></a>配置模块</h3><h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3>
         </div>
 
         
@@ -413,7 +454,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-18 22:14:45
+                    :</strong> 2023-10-19 22:42:23
             </li>
         
         <li>
@@ -438,7 +479,7 @@
             <ul class="post-tags-box">
                 
                     <li class="tag-item">
-                        <a href="/tags/first-Java-blog/">#first-Java-blog</a>&nbsp;
+                        <a href="/tags/Java-Project01/">#Java_Project01</a>&nbsp;
                     </li>
                 
             </ul>
@@ -449,21 +490,21 @@
         
             <div class="article-nav">
                 
-                
-                    <div class="article-next">
-                        <a class="next"
-                        rel="next"
-                        href="/2023/10/16/hello-world/"
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/10/19/Java-itern-blog/"
                         >
-                            <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">Hello World</span>
-                                <span class="post-nav-item">Next posts</span>
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
                             </span>
-                            <span class="right arrow-icon flex justify-center items-center">
-                                <i class="fa-solid fa-chevron-right"></i>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">Java中intern、new String（）会创建几个对象</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
+                
                 
             </div>
         
