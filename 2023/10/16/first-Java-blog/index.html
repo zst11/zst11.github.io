@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231017230325405.png">
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231018214238254.png">
 <meta property="article:published_time" content="2023-10-16T14:34:16.000Z">
-<meta property="article:modified_time" content="2023-10-19T14:42:23.138Z">
+<meta property="article:modified_time" content="2023-10-20T17:34:15.420Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Java_Project01">
 <meta name="twitter:card" content="summary">
@@ -241,8 +241,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-19 22:42:23</span>
-            <span class="mobile">2023-10-19 22:42:23</span>
+            <span class="desktop">2023-10-21 01:34:15</span>
+            <span class="mobile">2023-10-21 01:34:15</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -440,7 +440,31 @@
 <li><p>将原先使用System输出的位置改为日志输出</p>
 </li>
 </ul>
-<h3 id="配置模块"><a href="#配置模块" class="headerlink" title="配置模块"></a>配置模块</h3><h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3>
+<h3 id="配置模块"><a href="#配置模块" class="headerlink" title="配置模块"></a>配置模块</h3><p>首先我们需先了解配置模块得作用：</p>
+<p>1、通过配置模块产生其他模块对象，就不用模块中再持有各自实例，将项目进行解耦</p>
+<p>2、当我们需要从配置文件中获取到需要得信息时，可以直接使用配置模块获得</p>
+<p>实现过程：</p>
+<p>1、在实现之前我们先来了解一个概念，回调（callback）</p>
+<p>回调就是我们并不知道此处具体要实现什么，然后正常进行调用，然后当我们各自具体项目实现这个方法时对其各自实现</p>
+<p>此次项目中就定义了两个接口用来定义回调函数</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用于实现某个模块需要另一个模块得支持时，创建该模块</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">ConfigurationAware</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 可通过参数configuration的getXxx()方法获取需要的模块的对象</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> configuration Configuration接口的实现类对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">setConfiguration</span><span class="params">(Configuration configuration)</span> <span class="keyword">throws</span> Exception;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于实现我们在需要到配置文件中得信息时，通过重写init从properties中拿到信息</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">PropertiesAware</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 对当前模块进行初始化赋值，变量值从properties中获取</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> properties 存储了配置信息(例如ip、端口号)的Properties对象</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(Properties properties)</span> <span class="keyword">throws</span> Exception;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p>2、创建Configuration配置接口并实现（ConfigurationImpl）他</p>
+<p>​	接口中有实现各个模块得抽象方法</p>
+<p>3、ConfigurationImpl的实现</p>
+<ul>
+<li><p>创建map对象来接收key 标签名 value 权限类名，然后就可以在重写的抽象方法中通过map.get()来获取到不同模块</p>
+</li>
+<li><p>创建properties对象来接收配置信息</p>
+</li>
+<li><p>使用dom4j通过SAXReader来对xml文件进行解析</p>
+</li>
+<li><p>对于解析到elements，对于其是模块名还是配置信息将其放到map或者properties中</p>
+</li>
+<li><p>最后，判断不同的类是否实现了PropertiesAware或者ConfigurationAware接口来进行相应的回调；判断接口是否实现了二者使用instanceof进行判断（instanceof 可以判断类 和 接口）</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">map.forEach((k,v)-&gt;&#123;</span><br><span class="line">            <span class="keyword">if</span> (v <span class="keyword">instanceof</span> PropertiesAware)&#123;</span><br><span class="line">                <span class="type">PropertiesAware</span> <span class="variable">p</span> <span class="operator">=</span> (PropertiesAware) v;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    p.init(properties);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (v <span class="keyword">instanceof</span> ConfigurationAware)&#123;</span><br><span class="line">                <span class="type">ConfigurationAware</span> <span class="variable">c</span> <span class="operator">=</span> (ConfigurationAware) v;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    c.setConfiguration(<span class="built_in">this</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3>
         </div>
 
         
@@ -454,7 +478,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-19 22:42:23
+                    :</strong> 2023-10-21 01:34:15
             </li>
         
         <li>

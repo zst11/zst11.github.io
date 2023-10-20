@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2023/10/19/Java-itern-blog/</loc>
+    <loc>http://example.com/2023/10/16/first-Java-blog/</loc>
     
     <lastmod>2023-10-20</lastmod>
     
@@ -11,9 +11,9 @@
   </url>
   
   <url>
-    <loc>http://example.com/2023/10/16/first-Java-blog/</loc>
+    <loc>http://example.com/2023/10/19/Java-itern-blog/</loc>
     
-    <lastmod>2023-10-19</lastmod>
+    <lastmod>2023-10-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
