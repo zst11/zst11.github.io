@@ -18,17 +18,17 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="前言首先，作为个人第一次写得博客如若不足希望大家能够指出，接下来就开始开心得创作吧 项目介绍 这是我第一次写得Java项目所以就没有使用SSM框架和web方面，也是比较可惜，就是单纯了得使用了maven和JDBC以及各种jar包 本项目是根据物联网技术，通过传感器对农棚内农作物得参数变化，例如：光照强度、湿度等，经由网关，发送给数据中心，并进行数据的分析和处理；对于此项目本篇文章就重点描述了客户端">
+        <meta name="description" content="前言首先，作为个人第一次写得博客如若不足希望大家能够指出，接下来就开始开心得创作吧 项目介绍项目源码地址：https:&#x2F;&#x2F;github.com&#x2F;zst11&#x2F;Caigou.git   这是我第一次写得Java项目所以就没有使用SSM框架和web方面，也是比较可惜，就是单纯了得使用了maven和JDBC以及各种jar包 本项目是根据物联网技术，通过传感器对农棚内农作物得参数变化，例如：光照强度、湿度等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="物联网环境监测系统">
 <meta property="og:url" content="http://example.com/2023/10/16/first-Java-blog/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言首先，作为个人第一次写得博客如若不足希望大家能够指出，接下来就开始开心得创作吧 项目介绍 这是我第一次写得Java项目所以就没有使用SSM框架和web方面，也是比较可惜，就是单纯了得使用了maven和JDBC以及各种jar包 本项目是根据物联网技术，通过传感器对农棚内农作物得参数变化，例如：光照强度、湿度等，经由网关，发送给数据中心，并进行数据的分析和处理；对于此项目本篇文章就重点描述了客户端">
+<meta property="og:description" content="前言首先，作为个人第一次写得博客如若不足希望大家能够指出，接下来就开始开心得创作吧 项目介绍项目源码地址：https:&#x2F;&#x2F;github.com&#x2F;zst11&#x2F;Caigou.git   这是我第一次写得Java项目所以就没有使用SSM框架和web方面，也是比较可惜，就是单纯了得使用了maven和JDBC以及各种jar包 本项目是根据物联网技术，通过传感器对农棚内农作物得参数变化，例如：光照强度、湿度等">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231017230325405.png">
 <meta property="og:image" content="http://example.com/2023/10/16/first-Java-blog/image-20231018214238254.png">
 <meta property="article:published_time" content="2023-10-16T14:34:16.000Z">
-<meta property="article:modified_time" content="2023-10-20T17:34:15.420Z">
+<meta property="article:modified_time" content="2023-10-21T16:53:57.955Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Java_Project01">
 <meta name="twitter:card" content="summary">
@@ -241,8 +241,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-10-21 01:34:15</span>
-            <span class="mobile">2023-10-21 01:34:15</span>
+            <span class="desktop">2023-10-22 00:53:57</span>
+            <span class="mobile">2023-10-22 00:53:57</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -281,7 +281,8 @@
 
         <div class="article-content markdown-body">
             <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先，作为个人第一次写得博客如若不足希望大家能够指出，接下来就开始开心得创作吧</p>
-<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><ul>
+<h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p><strong>项目源码地址：<a class="link" target="_blank" rel="noopener" href="https://github.com/zst11/Caigou.git">https://github.com/zst11/Caigou.git <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></strong></p>
+<ul>
 <li>这是我第一次写得Java项目所以就没有使用SSM框架和web方面，也是比较可惜，就是单纯了得使用了maven和JDBC以及各种jar包</li>
 <li>本项目是根据物联网技术，通过<strong>传感器</strong>对农棚内农作物得参数变化，例如：光照强度、湿度等，经由网关，发送给数据中心，并进行数据的分析和处理；对于此项目本篇文章就重点描述了客户端数据中心的数据操作之后将数据发给服务端，服务端对数据进行的入库操作，至于拿到了数据该如何分析数据不在本项目的范畴之内</li>
 </ul>
@@ -464,7 +465,25 @@
 <li><p>最后，判断不同的类是否实现了PropertiesAware或者ConfigurationAware接口来进行相应的回调；判断接口是否实现了二者使用instanceof进行判断（instanceof 可以判断类 和 接口）</p>
 <div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">map.forEach((k,v)-&gt;&#123;</span><br><span class="line">            <span class="keyword">if</span> (v <span class="keyword">instanceof</span> PropertiesAware)&#123;</span><br><span class="line">                <span class="type">PropertiesAware</span> <span class="variable">p</span> <span class="operator">=</span> (PropertiesAware) v;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    p.init(properties);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (v <span class="keyword">instanceof</span> ConfigurationAware)&#123;</span><br><span class="line">                <span class="type">ConfigurationAware</span> <span class="variable">c</span> <span class="operator">=</span> (ConfigurationAware) v;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    c.setConfiguration(<span class="built_in">this</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure></div></li>
 </ul>
-<h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3>
+<h3 id="备份模块"><a href="#备份模块" class="headerlink" title="备份模块"></a>备份模块</h3><p>备份模块最初在此项目设计的时候是并不存在得，而之所以在后来设计这一模块是为了对项目整体做出一个优化，使其可以不用读取重复得数据</p>
+<p>实现过程：</p>
+<ul>
+<li><p>创建Backup接口，其中有两个抽象方法</p>
+<ul>
+<li>load（）：调用load可以实现读取到上一次所备份得数据</li>
+<li>store（）：使用store可以将最新得数据进行备份</li>
+</ul>
+<blockquote>
+<p><strong>ps</strong>:我们所备份或者读取到得其实是最后指针所指到得位置</p>
+</blockquote>
+</li>
+<li><p>使用备份模块，获取到上一次备份的数据也就是指针位置和新数据的指针位置进行对比，如若指针位置增加了我们就行数据的采集</p>
+</li>
+<li><p>我们在使用到备份模块之后，就会将数据流的读取方式从缓冲流改变到随机流，这样我们在得到指针位置改变了，就使用随机流中的seek（）方法跳转到上一次备份数据指针的位置，直接从这位置进行数据的采集</p>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>作为自己的第一个Java项目，但是也不能称之为项目吧，然后一个人完成了这些也觉得挺不错得，接下来就让我们期待下面的项目吧。</p>
+
         </div>
 
         
@@ -478,7 +497,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-10-21 01:34:15
+                    :</strong> 2023-10-22 00:53:57
             </li>
         
         <li>
@@ -587,7 +606,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">物联网环境监测系统</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">数据分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%85%B3%E7%B3%BB"><span class="nav-text">模块关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%BC%96%E5%86%99"><span class="nav-text">项目编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E9%9B%86%E6%A8%A1%E5%9D%97"><span class="nav-text">采集模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97%EF%BC%88TCP%EF%BC%89"><span class="nav-text">网络模块（TCP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E5%BA%93%E6%A8%A1%E5%9D%97"><span class="nav-text">入库模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97"><span class="nav-text">日志模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9D%97"><span class="nav-text">配置模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%A8%A1%E5%9D%97"><span class="nav-text">备份模块</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">数据分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%85%B3%E7%B3%BB"><span class="nav-text">模块关系</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%BC%96%E5%86%99"><span class="nav-text">项目编写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%87%E9%9B%86%E6%A8%A1%E5%9D%97"><span class="nav-text">采集模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9D%97%EF%BC%88TCP%EF%BC%89"><span class="nav-text">网络模块（TCP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E5%BA%93%E6%A8%A1%E5%9D%97"><span class="nav-text">入库模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%A8%A1%E5%9D%97"><span class="nav-text">日志模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9D%97"><span class="nav-text">配置模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E6%A8%A1%E5%9D%97"><span class="nav-text">备份模块</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
 
     </div>
 </div>
