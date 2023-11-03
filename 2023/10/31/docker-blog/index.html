@@ -26,16 +26,16 @@
 <meta property="og:description" content="Docker 学习 弱小和无知不是生存得障碍，傲慢才是  —-《三体》   只要学不死，就往死里学！！！  Docker概述Java —- jar（环境）—– 打包项目带上环境（镜像）—– Docker仓库（商店）—— 别人下载发布得镜像直接运行即可 思想来自于集装箱！ 核心思想：隔离！ 文档地址：Docker Docs  Docker安装Docker基本组成 镜像（image）：通过镜像创建容器">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231031211601853.png">
-<meta property="og:image" content="http://example.com/image-20231103100035818.png">
-<meta property="og:image" content="http://example.com/image-20231103101741457.png">
-<meta property="og:image" content="http://example.com/image-20231104004943088.png">
-<meta property="og:image" content="http://example.com/image-20231104005157855.png">
-<meta property="og:image" content="http://example.com/image-20231104010214583.png">
-<meta property="og:image" content="http://example.com/image-20231104011436357.png">
-<meta property="og:image" content="http://example.com/image-20231104012545957.png">
-<meta property="og:image" content="http://example.com/image-20231104015320699.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231103100035818.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231103101741457.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104004943088.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104005157855.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104010214583.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104011436357.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104012545957.png">
+<meta property="og:image" content="http://example.com/2023/10/31/docker-blog/image-20231104015320699.png">
 <meta property="article:published_time" content="2023-10-31T12:17:52.000Z">
-<meta property="article:modified_time" content="2023-11-03T18:08:49.842Z">
+<meta property="article:modified_time" content="2023-11-03T18:15:26.138Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/10/31/docker-blog/image-20231031211601853.png">
@@ -247,8 +247,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-11-04 02:08:49</span>
-            <span class="mobile">2023-11-04 02:08:49</span>
+            <span class="desktop">2023-11-04 02:15:26</span>
+            <span class="mobile">2023-11-04 02:15:26</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -306,7 +306,7 @@
 <p>-it  以交互式运行，进入容器查看内容    &#x2F;bin&#x2F;bash (后面这个加入到最后，是进入控制台命令)   ； 进入之后容器就是镜像id</p>
 <p>-p  指定容器端口  可以映射主机端口   主机端口：容器端口</p>
 <p>-P  随机端口</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231103100035818.png" alt="image-20231103100035818"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231103100035818.png" alt="image-20231103100035818"></p>
 <p>docker ps 【参数】 查看容器</p>
 <p>退出容器 ： </p>
 <div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exit #容器停止并退出</span><br><span class="line">Ctrl + P + Q # 退出不停止</span><br></pre></td></tr></table></figure></div>
@@ -314,7 +314,7 @@
 <p>删除容器</p>
 <div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm -f 容器id # 不能移除正在运行得容器，加上-f就可以</span><br></pre></td></tr></table></figure></div>
 
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231103101741457.png" alt="image-20231103101741457"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231103101741457.png" alt="image-20231103101741457"></p>
 <p>启动容器</p>
 <div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker start 容器id</span><br><span class="line">restart 重启</span><br><span class="line">stop 关闭</span><br></pre></td></tr></table></figure></div>
 
@@ -327,20 +327,20 @@
 <div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec 容器id  /bin/bash # 方式一，进入容器之后会进去一个新的终端，可以进行命令操作</span><br><span class="line"></span><br><span class="line">docker attach 容器id  # 方式二，进入容器里正在执行得终端，不会开启新的终端</span><br></pre></td></tr></table></figure></div>
 
 <p>日志</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104004943088.png" alt="image-20231104004943088"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104004943088.png" alt="image-20231104004943088"></p>
 <p>写一段shell 脚本后台运行，通过日志查看</p>
 <p>查看进程 <strong>pid才是进程号</strong></p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104005157855.png" alt="image-20231104005157855"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104005157855.png" alt="image-20231104005157855"></p>
 <p>查看镜像元数据</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104010214583.png" alt="image-20231104010214583"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104010214583.png" alt="image-20231104010214583"></p>
 <p>从容器中拷贝文件到虚拟机主机上（反过来是用数据卷挂载）</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104011436357.png" alt="image-20231104011436357"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104011436357.png" alt="image-20231104011436357"></p>
 <h2 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h2><p>部署nginx</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104012545957.png" alt="image-20231104012545957"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104012545957.png" alt="image-20231104012545957"></p>
 <p>通过-p 来暴露Linux的端口让我可以通过这个端口访问到容器内的nginx（默认80端口）</p>
 <p>注意这个端口Linux防火墙是否已开（我好像关闭了防火墙），阿里云服务器安全组是否已开</p>
 <p>进入容器</p>
-<p><img lazyload src="/images/loading.svg" data-src="/image-20231104015320699.png" alt="image-20231104015320699"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/10/31/docker-blog/image-20231104015320699.png" alt="image-20231104015320699"></p>
 <p><strong>但每次修改配置文件都要进入容器内部，十分麻烦，后面可以在容器外部提供一个映射路径，修改外部容器内部就可以修改了，使用 -v数据卷技术</strong></p>
 
         </div>
@@ -356,7 +356,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-11-04 02:08:49
+                    :</strong> 2023-11-04 02:15:26
             </li>
         
         <li>
