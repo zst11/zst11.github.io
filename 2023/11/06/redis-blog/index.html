@@ -46,8 +46,13 @@
 <meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110004337711.png">
 <meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110004306455.png">
 <meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110005248652.png">
+<meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110194954064.png">
+<meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110200047535.png">
+<meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231110225845782.png">
+<meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231111001207440.png">
+<meta property="og:image" content="http://example.com/2023/11/06/redis-blog/image-20231111001609317.png">
 <meta property="article:published_time" content="2023-11-06T14:41:08.000Z">
-<meta property="article:modified_time" content="2023-11-09T17:24:06.465Z">
+<meta property="article:modified_time" content="2023-11-10T16:35:41.864Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/11/06/redis-blog/image-20231106234501382.png">
@@ -259,8 +264,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-11-10 01:24:06</span>
-            <span class="mobile">2023-11-10 01:24:06</span>
+            <span class="desktop">2023-11-11 00:35:41</span>
+            <span class="mobile">2023-11-11 00:35:41</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -501,6 +506,96 @@
 <p>当我们的aof文件大于了64mb之后。就会rewrite重写，生成新的aof文件</p>
 <p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231110005248652.png" alt="image-20231110005248652"></p>
 <p>当同时开启两个之后，会恢复aof中的数据，完整</p>
+<h2 id="消息订阅"><a href="#消息订阅" class="headerlink" title="消息订阅"></a>消息订阅</h2><p>订阅者订阅了频道</p>
+<p>发布者往频道中发布了信息</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">订阅信息</span></span><br><span class="line">127.0.0.1:6379&gt; SUBSCRIBE zzbond # 订阅频道，所以我们就在这里监听</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;zzbond&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在另一台机器发布消息</span></span><br><span class="line">127.0.0.1:6379&gt; PUBLISH zzbond hello,zst # 发布信息</span><br><span class="line">(integer) 1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> 另外监听的一边就能订阅到</span></span><br><span class="line">127.0.0.1:6379&gt; SUBSCRIBE zzbond</span><br><span class="line">1) &quot;subscribe&quot;</span><br><span class="line">2) &quot;zzbond&quot;</span><br><span class="line">3) (integer) 1</span><br><span class="line">1) &quot;message&quot; # 消息</span><br><span class="line">2) &quot;zzbond&quot; # 哪个频道</span><br><span class="line">3) &quot;hello,zst&quot; # 具体消息</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+
+
+<h2 id="Redis主从复制"><a href="#Redis主从复制" class="headerlink" title="Redis主从复制"></a>Redis主从复制</h2><p>数据的复制是单向的，只能从主机复制到从机</p>
+<p>master以写为主，slave以读为主</p>
+<p>80%基本都是读操作，所以将其在从机种进行，减缓服务器压力！</p>
+<p>作用：1、数据冗余：将数据进行备份，是持久化的另一种方式</p>
+<p>2：故障恢复</p>
+<p>3：负载均衡</p>
+<p>4：高可用基石</p>
+<p>主从复制必须要使用的，数据访问量大，单机访问不可能</p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>只配置从库，不配置主库</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">一台机子查看其默认配置，是主机</span></span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Replication</span></span><br><span class="line">role:master # 角色</span><br><span class="line">connected_slaves:0 # 连接从机</span><br><span class="line">master_failover_state:no-failover</span><br><span class="line">master_replid:b9b521447e67bf8089517766ca26d253df0a8ef2</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:0</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:0</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:0</span><br><span class="line">repl_backlog_histlen:0</span><br><span class="line">127.0.0.1:6379&gt; </span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p>复制三个配置文件，然后修改其信息</p>
+<p>1、端口</p>
+<p>2、pid</p>
+<p>3、输出的日志文件名字 logfile</p>
+<p>4、rdb持久化文件的名字 dump</p>
+<p>之后就可以在三个客户端里分别启动不同server 使用不用端口登录，可以看到集群就搭建好了</p>
+<p>通过进程信息查看就可以知道</p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231110194954064.png" alt="image-20231110194954064"></p>
+<h3 id="一主二从"><a href="#一主二从" class="headerlink" title="一主二从"></a>一主二从</h3><p><strong>配置好集群之后，每台主机默认都以自己为主机</strong></p>
+<p>配置：只用去配置从机，认老大！一主（79），二从（80，81）</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6380&gt; SLAVEOF 127.0.0.1 6379 # 在从机上使用slaveof配置主机，ip 端口</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6380&gt; info replaction</span><br><span class="line">127.0.0.1:6380&gt; info replication # 查看信息</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Replication</span></span><br><span class="line">role:slave</span><br><span class="line">master_host:127.0.0.1</span><br><span class="line">master_port:6379</span><br><span class="line">master_link_status:up</span><br><span class="line">master_last_io_seconds_ago:4</span><br><span class="line">master_sync_in_progress:0</span><br><span class="line">slave_read_repl_offset:42</span><br><span class="line">slave_repl_offset:42</span><br><span class="line">slave_priority:100</span><br><span class="line">slave_read_only:1</span><br><span class="line">replica_announced:1</span><br><span class="line">connected_slaves:0</span><br><span class="line">master_failover_state:no-failover</span><br><span class="line">master_replid:78eaddc92cbd9a2e1e94b7a6aaaa2ca39542420e</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:42</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:15</span><br><span class="line">repl_backlog_histlen:28</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">在主机上就可以看到信息</span></span><br><span class="line">127.0.0.1:6379&gt; info replication</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Replication</span></span><br><span class="line">role:master</span><br><span class="line">connected_slaves:1</span><br><span class="line">slave0:ip=127.0.0.1,port=6380,state=online,offset=56,lag=1</span><br><span class="line">master_failover_state:no-failover</span><br><span class="line">master_replid:78eaddc92cbd9a2e1e94b7a6aaaa2ca39542420e</span><br><span class="line">master_replid2:0000000000000000000000000000000000000000</span><br><span class="line">master_repl_offset:56</span><br><span class="line">second_repl_offset:-1</span><br><span class="line">repl_backlog_active:1</span><br><span class="line">repl_backlog_size:1048576</span><br><span class="line">repl_backlog_first_byte_offset:1</span><br><span class="line">repl_backlog_histlen:56</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">另外一台也一样</span></span><br></pre></td></tr></table></figure></div>
+
+<p>这上面使用的是命令，真实的配置是在文件种，这样配来只是暂时的，重新启动之后就会变回主机</p>
+<p>在配置文件中，进行配置，启动之后就是从机</p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231110200047535.png" alt="image-20231110200047535"></p>
+<blockquote>
+<p>主机负责写，从机负责写；主机中的信息，会被从机自动保存</p>
+</blockquote>
+<ul>
+<li>全量复制：将主机数据全部复制到自己</li>
+<li>增量复制：将新的所有收集到的数据复制给从机</li>
+</ul>
+<p>当从机断开之后再次连接就是全量复制</p>
+<p>主机断开之后，从机依然连接主机，但还是只能读；主机再次恢复之后，依然是一主二从</p>
+<p>除此之外，还有另一种主从复制</p>
+<blockquote>
+<p>层层链路</p>
+</blockquote>
+<p>81 主机在进行配置时将其端口配置到80，但此时80端口任然是从节点，只能进行读取，不能写入</p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231110225845782.png" alt="image-20231110225845782"></p>
+<blockquote>
+<p>如果79断了，之后需要自己手动在配置 slaveof no one ，哪台主机这样之后，他就不是从机了，自己变为了主机，别的机器就可以进行配置</p>
+</blockquote>
+<h3 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h3><blockquote>
+<p>自动选举老大</p>
+</blockquote>
+<p>1、哨兵配置文件 sentinel.conf</p>
+<p>一般会有多个哨兵，这里只设置了一个</p>
+<blockquote>
+<p> 信息补充：虽然sentinel集群中每个sentinel都互相连接彼此来检查对方的可用性以及互相发送消息。但是你不用在任何一个sentinel配置任何其他的snetinel节点。因为sentinel利用了master的发布&#x2F;订阅机制去自动发现其它监控了统一master的sentinel节点。</p>
+</blockquote>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor  myredis 127.0.0.1 6379 1</span><br><span class="line"><span class="meta prompt_"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">sentinel monitor 监控名称 ip port</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p>后面的数字1，代表主机挂了，slave投票，看让谁成为主机；</p>
+<p>2、启动哨兵</p>
+<div class="highlight-container" data-rel="Shell"><figure class="iseeu highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel zconf/sentinel.conf</span><br></pre></td></tr></table></figure></div>
+
+<p>将6379主机关闭；会自动进行故障专业，投票出另一台slave为master</p>
+<p>当6379回来，会变成从机</p>
+<p>如果想使用高可用那就集群哨兵</p>
+<h2 id="Redis缓存穿透和雪崩"><a href="#Redis缓存穿透和雪崩" class="headerlink" title="Redis缓存穿透和雪崩"></a>Redis缓存穿透和雪崩</h2><h3 id="缓存穿透（查不到）"><a href="#缓存穿透（查不到）" class="headerlink" title="缓存穿透（查不到）"></a>缓存穿透（查不到）</h3><p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231111001207440.png" alt="image-20231111001207440"></p>
+<blockquote>
+<p>概念</p>
+</blockquote>
+<p>当用户 想去查询一个数据，但是缓存中没有，也就是redis中没有，然后现在我们就会去查询MySQL数据库，发现也没有，于是查询失败，当用户很多时，一起去访问数据库，这时候就会导致数据库压力很大，这就是缓存穿透</p>
+<blockquote>
+<p>解决方法</p>
+</blockquote>
+<p>1、布隆过滤器，一种数据结构，对所有可能的查询参数以hash的形式存储，在控制层先进行校验，不符合就丢弃，从而避免了对底层的压力。</p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/06/redis-blog/image-20231111001609317.png" alt="image-20231111001609317"></p>
+<p>2、缓存空对象</p>
+<p>如果没有被命中就在redis中缓存空对象</p>
+<h3 id="缓存击穿（量太大，缓存过期！）"><a href="#缓存击穿（量太大，缓存过期！）" class="headerlink" title="缓存击穿（量太大，缓存过期！）"></a>缓存击穿（量太大，缓存过期！）</h3><p>当高并发的对其中一个点进行访问时，如果此时出现了缓存过期，此时所有的并发量就会对数据库访问，此时就会导致数据库压力很大，而且数据库还要写回缓存</p>
+<blockquote>
+<p>解决方法</p>
+</blockquote>
+<p>1、设置热点数据永不过期</p>
+<p>2、分布式锁，对于同一个key，只有一个线程去查询后端</p>
+<h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>在某一个时间段，缓存过期了，或者redis宕机了</p>
+<p>例如双11时，将一批热点商品放入缓存中，但某时间缓存过期了，这时候就会迎来雪崩</p>
+<p>解决</p>
+<p>1、redis高可用多设置几台redis，集群！！！</p>
+<p>2、限流降级，限制其他服务器的活动来全力完成这个</p>
 
         </div>
 
@@ -515,7 +610,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-11-10 01:24:06
+                    :</strong> 2023-11-11 00:35:41
             </li>
         
         <li>
@@ -631,7 +726,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">redis-blog</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E5%AD%A6%E4%B9%A0"><span class="nav-text">Redis学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8"><span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%AE%89%E8%A3%85"><span class="nav-text">Windows安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E5%AE%89%E8%A3%85"><span class="nav-text">Linux安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="nav-text">测试性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">基础知识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-key"><span class="nav-text">Redis-key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash"><span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zset-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88"><span class="nav-text">Zset(有序集合)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E7%89%B9%E6%AE%8A%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">三种特殊数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis"><span class="nav-text">Jedis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot-%E6%95%B4%E5%90%88Redis"><span class="nav-text">SpringBoot 整合Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89RedisTemplate"><span class="nav-text">自定义RedisTemplate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-conf%E8%AF%A6%E8%A7%A3"><span class="nav-text">Redis.conf详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">Redis持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%EF%BC%88Redis-DataBase%EF%BC%89"><span class="nav-text">RDB（Redis DataBase）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF-Append-Only-File"><span class="nav-text">AOF(Append Only File)</span></a></li></ol></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis%E5%AD%A6%E4%B9%A0"><span class="nav-text">Redis学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8"><span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows%E5%AE%89%E8%A3%85"><span class="nav-text">Windows安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E5%AE%89%E8%A3%85"><span class="nav-text">Linux安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%80%A7%E8%83%BD"><span class="nav-text">测试性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-text">基础知识</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">五大数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-key"><span class="nav-text">Redis-key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String"><span class="nav-text">String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#List"><span class="nav-text">List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hash"><span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zset-%E6%9C%89%E5%BA%8F%E9%9B%86%E5%90%88"><span class="nav-text">Zset(有序集合)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E7%89%B9%E6%AE%8A%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-text">三种特殊数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis"><span class="nav-text">Jedis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringBoot-%E6%95%B4%E5%90%88Redis"><span class="nav-text">SpringBoot 整合Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89RedisTemplate"><span class="nav-text">自定义RedisTemplate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-conf%E8%AF%A6%E8%A7%A3"><span class="nav-text">Redis.conf详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">Redis持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%EF%BC%88Redis-DataBase%EF%BC%89"><span class="nav-text">RDB（Redis DataBase）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF-Append-Only-File"><span class="nav-text">AOF(Append Only File)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%AE%A2%E9%98%85"><span class="nav-text">消息订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-text">Redis主从复制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%BB%E4%BA%8C%E4%BB%8E"><span class="nav-text">一主二从</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="nav-text">哨兵模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%92%8C%E9%9B%AA%E5%B4%A9"><span class="nav-text">Redis缓存穿透和雪崩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%EF%BC%88%E6%9F%A5%E4%B8%8D%E5%88%B0%EF%BC%89"><span class="nav-text">缓存穿透（查不到）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF%EF%BC%88%E9%87%8F%E5%A4%AA%E5%A4%A7%EF%BC%8C%E7%BC%93%E5%AD%98%E8%BF%87%E6%9C%9F%EF%BC%81%EF%BC%89"><span class="nav-text">缓存击穿（量太大，缓存过期！）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="nav-text">缓存雪崩</span></a></li></ol></li></ol></li></ol>
 
     </div>
 </div>
