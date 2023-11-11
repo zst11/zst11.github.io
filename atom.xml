@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-11-10T07:58:49.524Z</updated>
+  <updated>2023-11-11T10:04:21.833Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>rabbit_mq-blog</title>
+    <link href="http://example.com/2023/11/11/rabbit-mq-blog/"/>
+    <id>http://example.com/2023/11/11/rabbit-mq-blog/</id>
+    <published>2023-11-11T10:00:19.000Z</published>
+    <updated>2023-11-11T10:04:21.833Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p><p><img lazyload src="/images/loading.svg" data-src="/../rabbit-mq-blog/image-20231111180339445.png" alt="image-20231111180339445"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;RabbitMQ学习&quot;&gt;&lt;a href=&quot;#RabbitMQ学习&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ学习&quot;&gt;&lt;/a&gt;RabbitMQ学习&lt;/h1&gt;&lt;h2 id=&quot;MQ&quot;&gt;&lt;a href=&quot;#MQ&quot; class=&quot;headerli</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>design-blog</title>

@@ -13,18 +13,24 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/archives/2023/10/"/>
+    <link rel="canonical" href="http://example.com/2023/11/11/rabbit-mq-blog/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2023/10/index.html">
+        <meta name="description" content="RabbitMQ学习MQmessage queue：消息队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rabbit_mq-blog">
+<meta property="og:url" content="http://example.com/2023/11/11/rabbit-mq-blog/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="RabbitMQ学习MQmessage queue：消息队列">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/rabbit-mq-blog/image-20231111180339445.png">
+<meta property="article:published_time" content="2023-11-11T10:00:19.000Z">
+<meta property="article:modified_time" content="2023-11-11T10:04:21.833Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/rabbit-mq-blog/image-20231111180339445.png">
     
     
     <!--- Icon Part-->
@@ -36,7 +42,7 @@
     
     <title>
         
-            Archive: 2023/10 -
+            rabbit_mq-blog -
         
         Theme Redefine
     </title>
@@ -199,84 +205,194 @@
             <div class="main-content">
 
                 
-                    <div class="archive-container ">
-    
+                    <div class="post-page-container">
+    <div class="article-content-container">
 
-<div class="archive-list-container">
-    
-        <section class="archive-item">
-            <div class="archive-item-header">
-                <span class="archive-year">2023</span>
-                <span class="archive-year-post-count">[6]</span>
+        <div class="article-title">
+            
+                <h1 class="article-title-regular">rabbit_mq-blog</h1>
+            
             </div>
-            <ul class="article-list">
-              
-                
+            
                     
-                    <li class="article-item" date-is='11-11'>
-                
-                
-                    <a href="/2023/11/11/rabbit-mq-blog/">
-                        <span class="article-title">rabbit_mq-blog</span>
-                    </a>
-                
-              
-                
-                    
-                    <li class="article-item" date-is='11-07'>
-                
-                
-                    <a href="/2023/11/07/design-blog/">
-                        <span class="article-title">design-blog</span>
-                    </a>
-                
-              
-                
-                    
-                    <li class="article-item" date-is='11-06'>
-                
-                
-                    <a href="/2023/11/06/redis-blog/">
-                        <span class="article-title">redis-blog</span>
-                    </a>
-                
-              
-                
-                    
-                    <li class="article-item" date-is='10-31'>
-                
-                
-                    <a href="/2023/10/31/docker-blog/">
-                        <span class="article-title">docker-blog</span>
-                    </a>
-                
-              
-                
-                    
-                    <li class="article-item" date-is='10-19'>
-                
-                
-                    <a href="/2023/10/19/Java-itern-blog/">
-                        <span class="article-title">Java中intern、new String（）会创建几个对象</span>
-                    </a>
-                
-              
-                
-                    
-                    <li class="article-item" date-is='10-16'>
-                
-                
-                    <a href="/2023/10/16/first-Java-blog/">
-                        <span class="article-title">物联网环境监测系统</span>
-                    </a>
-                
-              
-            </ul>
-        </section>
+        
+        
+            <div class="article-header flex flex-row gap-2 items-center">
+                <div class="avatar w-[46px] h-[46px] flex-shrink-0 rounded-medium border border-border-color p-[1px]">
+                    <img src="/images/redefine-avatar.svg">
+                </div>
+                <div class="info flex flex-col justify-between">
+                    <div class="author flex items-center">
+                        <span class="name text-default-text-color text-lg font-semibold">The Redefine Team</span>
+                        
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-11-11 18:19</span>
+        <span class="mobile">2023-11-11 18:19</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-11-11 18:04:21</span>
+            <span class="mobile">2023-11-11 18:04:21</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
     
 </div>
 
+                    </div>
+                </div>
+            </div>
+        
+
+        
+
+
+        <div class="article-content markdown-body">
+            <h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p>
+<p><img lazyload src="/images/loading.svg" data-src="/../rabbit-mq-blog/image-20231111180339445.png" alt="image-20231111180339445"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> rabbit_mq-blog</li>
+        <li><strong>Author:</strong> The Redefine Team</li>
+        <li><strong>Created at
+                :</strong> 2023-11-11 18:00:19</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2023-11-11 18:04:21
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/11/11/rabbit-mq-blog/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+            This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+            
+
+        </li>
+    </ul>
 </div>
+
+            </div>
+        
+
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                        rel="next"
+                        href="/2023/11/07/design-blog/"
+                        >
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">design-blog</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+
+        
+            <div class="comment-container">
+                <div class="comments-container pjax">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-swup-reload-script>
+        import { init } from '/js/libs/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+
+    
+        <div class="toc-content-container">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">rabbit_mq-blog</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ%E5%AD%A6%E4%B9%A0"><span class="nav-text">RabbitMQ学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MQ"><span class="nav-text">MQ</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+        </div>
+    
+</div>
+
+
 
                 
 
@@ -349,6 +465,27 @@
         </div>
     </div>
 
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
     
 
     <div class="right-side-tools-container">
