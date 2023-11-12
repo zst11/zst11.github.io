@@ -13,24 +13,25 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="http://example.com/2023/11/11/rabbit-mq-blog/"/>
+    <link rel="canonical" href="http://example.com/2023/11/12/mybatis-blog/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="RabbitMQ学习MQmessage queue：消息队列">
+        <meta name="description" content="Mybatis1、JDBC编程的步骤 驱动注册 Class.forName(“com.mysql.cj.jdbc.Driver”) 建立JDBC与数据库的连接  Connection conn &#x3D; DriverManager.getConnection(“jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名”，username，password) 创建Statem">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rabbit_mq-blog">
-<meta property="og:url" content="http://example.com/2023/11/11/rabbit-mq-blog/index.html">
+<meta property="og:title" content="mybatis-blog">
+<meta property="og:url" content="http://example.com/2023/11/12/mybatis-blog/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="RabbitMQ学习MQmessage queue：消息队列">
+<meta property="og:description" content="Mybatis1、JDBC编程的步骤 驱动注册 Class.forName(“com.mysql.cj.jdbc.Driver”) 建立JDBC与数据库的连接  Connection conn &#x3D; DriverManager.getConnection(“jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名”，username，password) 创建Statem">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2023/11/11/rabbit-mq-blog/image-20231111181400986.png">
-<meta property="article:published_time" content="2023-11-11T10:00:19.000Z">
-<meta property="article:modified_time" content="2023-11-11T10:19:21.588Z">
+<meta property="og:image" content="http://example.com/2023/11/12/mybatis-blog/image-20231112203111220.png">
+<meta property="og:image" content="http://example.com/2023/11/12/mybatis-blog/image-20231112203125136.png">
+<meta property="article:published_time" content="2023-11-12T11:36:51.000Z">
+<meta property="article:modified_time" content="2023-11-12T15:30:32.986Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2023/11/11/rabbit-mq-blog/image-20231111181400986.png">
+<meta name="twitter:image" content="http://example.com/2023/11/12/mybatis-blog/image-20231112203111220.png">
     
     
     <!--- Icon Part-->
@@ -42,7 +43,7 @@
     
     <title>
         
-            rabbit_mq-blog -
+            mybatis-blog -
         
         Theme Redefine
     </title>
@@ -210,7 +211,7 @@
 
         <div class="article-title">
             
-                <h1 class="article-title-regular">rabbit_mq-blog</h1>
+                <h1 class="article-title-regular">mybatis-blog</h1>
             
             </div>
             
@@ -232,15 +233,15 @@
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
         <i class="fa-regular fa-pen-fancy"></i>&nbsp;
-        <span class="desktop">2023-11-11 18:19</span>
-        <span class="mobile">2023-11-11 18:19</span>
+        <span class="desktop">2023-11-12 19:36:51</span>
+        <span class="mobile">2023-11-12 19:36:51</span>
         <span class="hover-info">Created</span>
     </span>
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-11-11 18:19:21</span>
-            <span class="mobile">2023-11-11 18:19:21</span>
+            <span class="desktop">2023-11-12 23:30:32</span>
+            <span class="mobile">2023-11-12 23:30:32</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -267,8 +268,94 @@
 
 
         <div class="article-content markdown-body">
-            <h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p>
-<p><img lazyload src="/images/loading.svg" data-src="/2023/11/11/rabbit-mq-blog/image-20231111181400986.png" alt="image-20231111181400986"></p>
+            <h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1><h2 id="1、JDBC编程的步骤"><a href="#1、JDBC编程的步骤" class="headerlink" title="1、JDBC编程的步骤"></a>1、JDBC编程的步骤</h2><ul>
+<li>驱动注册 Class.forName(“com.mysql.cj.jdbc.Driver”)</li>
+<li>建立JDBC与数据库的连接  Connection conn &#x3D; DriverManager.getConnection(“jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名”，username，password)</li>
+<li>创建Statement对象或者PrepareStatement <ul>
+<li>Statement st &#x3D; conn.createStatement();</li>
+</ul>
+</li>
+<li>执行sql，获取结果集</li>
+<li>处理结果集<ul>
+<li>next获取下一个位置是否有值</li>
+</ul>
+</li>
+<li>释放资源</li>
+</ul>
+<h2 id="2、浅谈MyBatis"><a href="#2、浅谈MyBatis" class="headerlink" title="2、浅谈MyBatis"></a>2、浅谈MyBatis</h2><ul>
+<li>是一个半ORM（对象关系映射）框架</li>
+<li>通过内部封装jdbc操作，开发人员只需重点关注sql语句编写</li>
+<li>通过xml或者注解方式将sql对象进行自动获取</li>
+</ul>
+<h2 id="3、优点与缺点以及和Hibernate有哪些不同"><a href="#3、优点与缺点以及和Hibernate有哪些不同" class="headerlink" title="3、优点与缺点以及和Hibernate有哪些不同"></a>3、优点与缺点以及和Hibernate有哪些不同</h2><p>优点：</p>
+<ul>
+<li>基于sql编程，相对灵活，不会对应用或者现有的数据现有的设计有影响，sql在xml中编写，降低程序耦合，且提供了动态sql语句的编写，且可重复使用</li>
+<li>与jdbc相比，减少50%以上的代码，消除了大量冗余的代码</li>
+<li>很好的与各种数据库兼容</li>
+<li>mybatis和是spring有很好的集成</li>
+<li>提供了映射标签，支持对象与数据库字段映射</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>sql语句的编写工作量较大，尤其是字段多的情况，关联表情况困难</li>
+<li>对数据库依赖大，不能随便更换数据库</li>
+</ul>
+<p>和hibernate的区别</p>
+<p>hibernate是全ORM框架，不需要编写sql语句，通过配置直接完成结果映射</p>
+<p>hibernate与数据库无关，方便移植</p>
+<h2 id="4、-和-的区别"><a href="#4、-和-的区别" class="headerlink" title="4、#{} 和 ${}的区别"></a>4、#{} 和 ${}的区别</h2><p>#{}是通过预编译，使用的位置使用？占位，${}是通过拼接方式会有sql注入的风险</p>
+<h2 id="5、jdbc问题分析，编写mybatis框架思路？"><a href="#5、jdbc问题分析，编写mybatis框架思路？" class="headerlink" title="5、jdbc问题分析，编写mybatis框架思路？"></a>5、jdbc问题分析，编写mybatis框架思路？</h2><p>问题分析：</p>
+<ul>
+<li>数据库信息是硬编码，修改的话需要修改代码</li>
+<li>繁琐的配置与释放资源</li>
+</ul>
+<p>解决思路：</p>
+<ul>
+<li>通过配置文件，反射和dom4j解析完成对象创建以及数据存储</li>
+<li>连接池</li>
+</ul>
+<p>思路分析：</p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/mybatis-blog/image-20231112203111220.png" alt="image-20231112203111220"></p>
+<p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/mybatis-blog/image-20231112203125136.png" alt="image-20231112203125136"></p>
+<h2 id="6、当实体类中的属性名和表中的字段名不一致，如何处理？"><a href="#6、当实体类中的属性名和表中的字段名不一致，如何处理？" class="headerlink" title="6、当实体类中的属性名和表中的字段名不一致，如何处理？"></a>6、当实体类中的属性名和表中的字段名不一致，如何处理？</h2><ul>
+<li>将表中的字段在查询时通过 as 起别名</li>
+<li>通过resultmap映射</li>
+<li>通过配置文件开启驼峰命令</li>
+</ul>
+<h2 id="7、mybatis中的动态sql使用到了哪些标签"><a href="#7、mybatis中的动态sql使用到了哪些标签" class="headerlink" title="7、mybatis中的动态sql使用到了哪些标签"></a>7、mybatis中的动态sql使用到了哪些标签</h2><p>1、if</p>
+<p>2、where</p>
+<p>3、trim：和where相同，只是其是去掉尾部多余的部分，且还可以根据其中的属性进行设置</p>
+<p>4、choose when ：和if else-if类似</p>
+<p>5、foreach</p>
+<p>6、set</p>
+<h2 id="8、实现一对一的方式有几种"><a href="#8、实现一对一的方式有几种" class="headerlink" title="8、实现一对一的方式有几种"></a>8、实现一对一的方式有几种</h2><ul>
+<li>嵌套结果：多表操作</li>
+<li>嵌套查询：分开的单表查询</li>
+</ul>
+<h2 id="9、mybatis是否支持延迟加载"><a href="#9、mybatis是否支持延迟加载" class="headerlink" title="9、mybatis是否支持延迟加载"></a>9、mybatis是否支持延迟加载</h2><p>是支持延迟加载的，延迟加载的时候是指在查找的时候只加载其基本属性，而其关联数据暂不加载</p>
+<p>当我们输出或者调用的时候，延迟加载就失效了，还是会查出全部的信息</p>
+<p>通过配置一个lazy….的配置文件	</p>
+<ul>
+<li>提高性能，如果关联关系太多，反而会导致性能下降</li>
+<li>在外部数据被修改会导致数据不一致</li>
+</ul>
+<h2 id="10、缓存机制"><a href="#10、缓存机制" class="headerlink" title="10、缓存机制"></a>10、缓存机制</h2><p>一级缓存：程序运行期间，可能一次数据库会话中，会执行多次相同的sql语句，mybatis提供了一级缓存优化方案，将数据保存在内存中（缓存中），提高性能</p>
+<p> 多个不同的会话没有影响</p>
+<p>二级缓存：针对于不同的mapper，多个不同的sqlsession对象共享数据，开启二级缓存，并配置标签<catch>或者配置注解</catch></p>
+<p>一级或二级缓存在遇到增删改的时候会清理缓存</p>
+<p>三级缓存：针对于第三方（redis）</p>
+<h2 id="11、在mapper中如何传递多个参数"><a href="#11、在mapper中如何传递多个参数" class="headerlink" title="11、在mapper中如何传递多个参数"></a>11、在mapper中如何传递多个参数</h2><p>1、方法参数名直接对应xml中的获取内容参数名</p>
+<p>2、按照索引方式，从0开始</p>
+<p>3、使用param代替参数，但是写法应为param1，param2….</p>
+<p>4、使用@Param注解标识参数名字，就可在xml中使用这个名字</p>
+<h2 id="12、如何分页"><a href="#12、如何分页" class="headerlink" title="12、如何分页"></a>12、如何分页</h2><p>1、使用RowBounds对象进行分页</p>
+<p>2、通过物理分页，结合sql的limit进行分页</p>
+<h2 id="13、mybatis中的设计模式"><a href="#13、mybatis中的设计模式" class="headerlink" title="13、mybatis中的设计模式"></a>13、mybatis中的设计模式</h2><p>1、建造者模式：在mybatis环境初始化过程中，SqlSessionFactoryBuilder会调用XMLConfigBuilder读取config文件信息以及所有的mapper文件信息，构建mybatis核心对象SqlSessionFactory，然后通过该对象构成对应的sqlSession对象</p>
+<p>2、工厂模式</p>
+<p>3、单例模式</p>
+<p>​	ErrorContext和LogFactory（提供mybatis使用的日志工厂）使用</p>
+<p>4、代理模式</p>
+<p>​	</p>
 
         </div>
 
@@ -276,18 +363,18 @@
             <div class="post-copyright-info">
                 <div class="article-copyright-info-container">
     <ul>
-        <li><strong>Title:</strong> rabbit_mq-blog</li>
+        <li><strong>Title:</strong> mybatis-blog</li>
         <li><strong>Author:</strong> The Redefine Team</li>
         <li><strong>Created at
-                :</strong> 2023-11-11 18:00:19</li>
+                :</strong> 2023-11-12 19:36:51</li>
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-11-11 18:19:21
+                    :</strong> 2023-11-12 23:30:32
             </li>
         
         <li>
-            <strong>Link:</strong> https://redefine.ohevan.com/2023/11/11/rabbit-mq-blog/
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/11/12/mybatis-blog/
         </li>
         <li>
             <strong>
@@ -314,13 +401,13 @@
                     <div class="article-prev">
                         <a class="prev"
                         rel="prev"
-                        href="/2023/11/12/mybatis-blog/"
+                        href="/2023/11/12/rabbitmq-blog/"
                         >
                             <span class="left arrow-icon flex justify-center items-center">
                                 <i class="fa-solid fa-chevron-left"></i>
                             </span>
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">mybatis-blog</span>
+                                <span class="post-nav-title-item">rabbitmq-blog</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
@@ -330,10 +417,10 @@
                     <div class="article-next">
                         <a class="next"
                         rel="next"
-                        href="/2023/11/07/design-blog/"
+                        href="/2023/11/11/rabbit-mq-blog/"
                         >
                             <span class="title flex justify-center items-center">
-                                <span class="post-nav-title-item">design-blog</span>
+                                <span class="post-nav-title-item">rabbit_mq-blog</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex justify-center items-center">
@@ -398,8 +485,8 @@
             <div class="post-toc-wrap">
     <div class="post-toc">
         <div class="toc-title">On this page</div>
-        <div class="page-title">rabbit_mq-blog</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ%E5%AD%A6%E4%B9%A0"><span class="nav-text">RabbitMQ学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MQ"><span class="nav-text">MQ</span></a></li></ol></li></ol>
+        <div class="page-title">mybatis-blog</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mybatis"><span class="nav-text">Mybatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81JDBC%E7%BC%96%E7%A8%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-text">1、JDBC编程的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%B5%85%E8%B0%88MyBatis"><span class="nav-text">2、浅谈MyBatis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E4%BC%98%E7%82%B9%E4%B8%8E%E7%BC%BA%E7%82%B9%E4%BB%A5%E5%8F%8A%E5%92%8CHibernate%E6%9C%89%E5%93%AA%E4%BA%9B%E4%B8%8D%E5%90%8C"><span class="nav-text">3、优点与缺点以及和Hibernate有哪些不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81-%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">4、#{} 和 ${}的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81jdbc%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%EF%BC%8C%E7%BC%96%E5%86%99mybatis%E6%A1%86%E6%9E%B6%E6%80%9D%E8%B7%AF%EF%BC%9F"><span class="nav-text">5、jdbc问题分析，编写mybatis框架思路？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81%E5%BD%93%E5%AE%9E%E4%BD%93%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8D%E5%92%8C%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%AD%97%E6%AE%B5%E5%90%8D%E4%B8%8D%E4%B8%80%E8%87%B4%EF%BC%8C%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-text">6、当实体类中的属性名和表中的字段名不一致，如何处理？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7%E3%80%81mybatis%E4%B8%AD%E7%9A%84%E5%8A%A8%E6%80%81sql%E4%BD%BF%E7%94%A8%E5%88%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E6%A0%87%E7%AD%BE"><span class="nav-text">7、mybatis中的动态sql使用到了哪些标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8%E3%80%81%E5%AE%9E%E7%8E%B0%E4%B8%80%E5%AF%B9%E4%B8%80%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9C%89%E5%87%A0%E7%A7%8D"><span class="nav-text">8、实现一对一的方式有几种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9%E3%80%81mybatis%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD"><span class="nav-text">9、mybatis是否支持延迟加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10%E3%80%81%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-text">10、缓存机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11%E3%80%81%E5%9C%A8mapper%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%A4%9A%E4%B8%AA%E5%8F%82%E6%95%B0"><span class="nav-text">11、在mapper中如何传递多个参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12%E3%80%81%E5%A6%82%E4%BD%95%E5%88%86%E9%A1%B5"><span class="nav-text">12、如何分页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13%E3%80%81mybatis%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-text">13、mybatis中的设计模式</span></a></li></ol></li></ol>
 
     </div>
 </div>

@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-11-11T10:04:21.833Z</updated>
+  <updated>2023-11-12T11:45:20.367Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,13 +17,53 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>rabbitmq-blog</title>
+    <link href="http://example.com/2023/11/12/rabbitmq-blog/"/>
+    <id>http://example.com/2023/11/12/rabbitmq-blog/</id>
+    <published>2023-11-12T11:39:30.000Z</published>
+    <updated>2023-11-12T11:45:20.367Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p><p>优势</p><ul><li>应用解耦 （容错，可维护）：将消息发送给中间件，不同的系统从中间件拿消息</li><li>异步提速（提速）</li></ul><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194201597.png" alt="image-20231112194201597"></p><ul><li>削峰填谷（增加系统稳定性）</li></ul><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194233284.png" alt="image-20231112194233284"></p><p>上面就是削峰</p><p>而填谷就是之后我们的系统在不断从MQ中处理信息就是填谷</p><p>劣势：</p><p>系统可用性降低</p><p>系统复杂度提高</p><p>一致性问题</p><h2 id="RabbitMQ（Erlang语言）"><a href="#RabbitMQ（Erlang语言）" class="headerlink" title="RabbitMQ（Erlang语言）"></a>RabbitMQ（Erlang语言）</h2><p>基于此AMQP（高级消息队列协议）：应用层协议，为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息。</p><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194301949.png" alt="image-20231112194301949"></p><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194327257.png" alt="image-20231112194327257"></p><p>RabbitMQ提供了6种简单模式，后面细看</p><p>JMS：是API的规范接口，类似于JDBC，但RabbitMQ并没有遵循此。</p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a class="link" href="https://blog.csdn.net/qq_45173404/article/details/116429302">RabbitMQ超详细安装教程（Linux）_rabbitmq安装-CSDN博客 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p><p>注意本机有一个默认账号guest，但只能本机localhost使用，远程登录不能使用！！！</p><h2 id="简单模式-hello-world"><a href="#简单模式-hello-world" class="headerlink" title="简单模式 hello world"></a>简单模式 hello world</h2><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194353916.png" alt="image-20231112194353916"></p><p>生产者</p><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1、创建连接工厂</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2、设置参数</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3、创建连接connection</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4、创建channel</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5、创建队列queue</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6、发送消息</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 7、释放资源</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 因为是简单模式所以不需要exchange交换机，所以直接默认null</span></span><br></pre></td></tr></table></figure></div><p>消费者</p><pre><code>    // 1、创建连接工厂    // 2、设置参数    // 3、创建连接connection    // 4、创建channel    // 5、创建队列queue    // 6、接收消息    // 7、不用释放资源</code></pre><h2 id="工作队列-Work-Queues"><a href="#工作队列-Work-Queues" class="headerlink" title="工作队列 Work Queues"></a>工作队列 Work Queues</h2><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194414974.png" alt="image-20231112194414974"></p><p>当工作比较重时可以有多个消费者</p><h2 id="Pub-Sub-发布订阅"><a href="#Pub-Sub-发布订阅" class="headerlink" title="Pub&#x2F;Sub 发布订阅"></a>Pub&#x2F;Sub 发布订阅</h2><blockquote><p>Fanout：广播，所有队列</p></blockquote><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194438011.png" alt="image-20231112194438011"></p><p>x:Exchange交换机（只负责转发消息），接收生产者发的消息，根据不同的Exchange类型交给不同的队列。</p><p>类型如下：</p><ul><li>Fanout：广播，所有队列</li><li>Direct：定向，交给指定routing key的队列</li><li>Topic：通配，交给符合routing pattern（路由模式）的队列</li><li>Headers：参数匹配，用得少</li></ul><p>和work queues的区别就是前者是多个消费者监听一条队列，后者多个消费者监听多个队列</p><h2 id="Routing-路由模式"><a href="#Routing-路由模式" class="headerlink" title="Routing 路由模式"></a>Routing 路由模式</h2><blockquote><p>Direct：定向，交给指定routing key的队列</p></blockquote><p><img lazyload src="/images/loading.svg" data-src="/image-20231112194502785.png" alt="image-20231112194502785"></p><blockquote><p>Direct：定向，交给指定routing key的队列</p></blockquote><h2 id="Topic-通配符模式"><a href="#Topic-通配符模式" class="headerlink" title="Topic 通配符模式"></a>Topic 通配符模式</h2><blockquote><p>Topic：通配，交给符合routing pattern（路由模式）的队列</p></blockquote><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194516579.png" alt="image-20231112194516579"></p><p>其中：</p><p>#：代表0个或多个单词</p><p>*：代表1个单词</p><p>更加灵活</p><h2 id="使用spring-boot整合rabbitmq"><a href="#使用spring-boot整合rabbitmq" class="headerlink" title="使用spring boot整合rabbitmq"></a>使用spring boot整合rabbitmq</h2><p>生产者：</p><ul><li>创建spring boot工程</li><li>编写配置文件</li><li>编写配置类<ul><li>exchange创建</li><li>队列创建</li><li>绑定队列与exchange</li></ul></li></ul><p>消费者：</p><ul><li>创建spring boot工程</li><li>配置文件</li><li>编写监听类</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;RabbitMQ学习&quot;&gt;&lt;a href=&quot;#RabbitMQ学习&quot; class=&quot;headerlink&quot; title=&quot;RabbitMQ学习&quot;&gt;&lt;/a&gt;RabbitMQ学习&lt;/h1&gt;&lt;h2 id=&quot;MQ&quot;&gt;&lt;a href=&quot;#MQ&quot; class=&quot;headerli</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mybatis-blog</title>
+    <link href="http://example.com/2023/11/12/mybatis-blog/"/>
+    <id>http://example.com/2023/11/12/mybatis-blog/</id>
+    <published>2023-11-12T11:36:51.000Z</published>
+    <updated>2023-11-12T15:30:32.986Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1><h2 id="1、JDBC编程的步骤"><a href="#1、JDBC编程的步骤" class="headerlink" title="1、JDBC编程的步骤"></a>1、JDBC编程的步骤</h2><ul><li>驱动注册 Class.forName(“com.mysql.cj.jdbc.Driver”)</li><li>建立JDBC与数据库的连接  Connection conn &#x3D; DriverManager.getConnection(“jdbc:mysql:&#x2F;&#x2F;ip:端口&#x2F;数据库名”，username，password)</li><li>创建Statement对象或者PrepareStatement <ul><li>Statement st &#x3D; conn.createStatement();</li></ul></li><li>执行sql，获取结果集</li><li>处理结果集<ul><li>next获取下一个位置是否有值</li></ul></li><li>释放资源</li></ul><h2 id="2、浅谈MyBatis"><a href="#2、浅谈MyBatis" class="headerlink" title="2、浅谈MyBatis"></a>2、浅谈MyBatis</h2><ul><li>是一个半ORM（对象关系映射）框架</li><li>通过内部封装jdbc操作，开发人员只需重点关注sql语句编写</li><li>通过xml或者注解方式将sql对象进行自动获取</li></ul><h2 id="3、优点与缺点以及和Hibernate有哪些不同"><a href="#3、优点与缺点以及和Hibernate有哪些不同" class="headerlink" title="3、优点与缺点以及和Hibernate有哪些不同"></a>3、优点与缺点以及和Hibernate有哪些不同</h2><p>优点：</p><ul><li>基于sql编程，相对灵活，不会对应用或者现有的数据现有的设计有影响，sql在xml中编写，降低程序耦合，且提供了动态sql语句的编写，且可重复使用</li><li>与jdbc相比，减少50%以上的代码，消除了大量冗余的代码</li><li>很好的与各种数据库兼容</li><li>mybatis和是spring有很好的集成</li><li>提供了映射标签，支持对象与数据库字段映射</li></ul><p>缺点：</p><ul><li>sql语句的编写工作量较大，尤其是字段多的情况，关联表情况困难</li><li>对数据库依赖大，不能随便更换数据库</li></ul><p>和hibernate的区别</p><p>hibernate是全ORM框架，不需要编写sql语句，通过配置直接完成结果映射</p><p>hibernate与数据库无关，方便移植</p><h2 id="4、-和-的区别"><a href="#4、-和-的区别" class="headerlink" title="4、#{} 和 ${}的区别"></a>4、#{} 和 ${}的区别</h2><p>#{}是通过预编译，使用的位置使用？占位，${}是通过拼接方式会有sql注入的风险</p><h2 id="5、jdbc问题分析，编写mybatis框架思路？"><a href="#5、jdbc问题分析，编写mybatis框架思路？" class="headerlink" title="5、jdbc问题分析，编写mybatis框架思路？"></a>5、jdbc问题分析，编写mybatis框架思路？</h2><p>问题分析：</p><ul><li>数据库信息是硬编码，修改的话需要修改代码</li><li>繁琐的配置与释放资源</li></ul><p>解决思路：</p><ul><li>通过配置文件，反射和dom4j解析完成对象创建以及数据存储</li><li>连接池</li></ul><p>思路分析：</p><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/mybatis-blog/image-20231112203111220.png" alt="image-20231112203111220"></p><p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/mybatis-blog/image-20231112203125136.png" alt="image-20231112203125136"></p><h2 id="6、当实体类中的属性名和表中的字段名不一致，如何处理？"><a href="#6、当实体类中的属性名和表中的字段名不一致，如何处理？" class="headerlink" title="6、当实体类中的属性名和表中的字段名不一致，如何处理？"></a>6、当实体类中的属性名和表中的字段名不一致，如何处理？</h2><ul><li>将表中的字段在查询时通过 as 起别名</li><li>通过resultmap映射</li><li>通过配置文件开启驼峰命令</li></ul><h2 id="7、mybatis中的动态sql使用到了哪些标签"><a href="#7、mybatis中的动态sql使用到了哪些标签" class="headerlink" title="7、mybatis中的动态sql使用到了哪些标签"></a>7、mybatis中的动态sql使用到了哪些标签</h2><p>1、if</p><p>2、where</p><p>3、trim：和where相同，只是其是去掉尾部多余的部分，且还可以根据其中的属性进行设置</p><p>4、choose when ：和if else-if类似</p><p>5、foreach</p><p>6、set</p><h2 id="8、实现一对一的方式有几种"><a href="#8、实现一对一的方式有几种" class="headerlink" title="8、实现一对一的方式有几种"></a>8、实现一对一的方式有几种</h2><ul><li>嵌套结果：多表操作</li><li>嵌套查询：分开的单表查询</li></ul><h2 id="9、mybatis是否支持延迟加载"><a href="#9、mybatis是否支持延迟加载" class="headerlink" title="9、mybatis是否支持延迟加载"></a>9、mybatis是否支持延迟加载</h2><p>是支持延迟加载的，延迟加载的时候是指在查找的时候只加载其基本属性，而其关联数据暂不加载</p><p>当我们输出或者调用的时候，延迟加载就失效了，还是会查出全部的信息</p><p>通过配置一个lazy….的配置文件</p><ul><li>提高性能，如果关联关系太多，反而会导致性能下降</li><li>在外部数据被修改会导致数据不一致</li></ul><h2 id="10、缓存机制"><a href="#10、缓存机制" class="headerlink" title="10、缓存机制"></a>10、缓存机制</h2><p>一级缓存：程序运行期间，可能一次数据库会话中，会执行多次相同的sql语句，mybatis提供了一级缓存优化方案，将数据保存在内存中（缓存中），提高性能</p><p> 多个不同的会话没有影响</p><p>二级缓存：针对于不同的mapper，多个不同的sqlsession对象共享数据，开启二级缓存，并配置标签<catch>或者配置注解</catch></p><p>一级或二级缓存在遇到增删改的时候会清理缓存</p><p>三级缓存：针对于第三方（redis）</p><h2 id="11、在mapper中如何传递多个参数"><a href="#11、在mapper中如何传递多个参数" class="headerlink" title="11、在mapper中如何传递多个参数"></a>11、在mapper中如何传递多个参数</h2><p>1、方法参数名直接对应xml中的获取内容参数名</p><p>2、按照索引方式，从0开始</p><p>3、使用param代替参数，但是写法应为param1，param2….</p><p>4、使用@Param注解标识参数名字，就可在xml中使用这个名字</p><h2 id="12、如何分页"><a href="#12、如何分页" class="headerlink" title="12、如何分页"></a>12、如何分页</h2><p>1、使用RowBounds对象进行分页</p><p>2、通过物理分页，结合sql的limit进行分页</p><h2 id="13、mybatis中的设计模式"><a href="#13、mybatis中的设计模式" class="headerlink" title="13、mybatis中的设计模式"></a>13、mybatis中的设计模式</h2><p>1、建造者模式：在mybatis环境初始化过程中，SqlSessionFactoryBuilder会调用XMLConfigBuilder读取config文件信息以及所有的mapper文件信息，构建mybatis核心对象SqlSessionFactory，然后通过该对象构成对应的sqlSession对象</p><p>2、工厂模式</p><p>3、单例模式</p><p>​ErrorContext和LogFactory（提供mybatis使用的日志工厂）使用</p><p>4、代理模式</p><p>​</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Mybatis&quot;&gt;&lt;a href=&quot;#Mybatis&quot; class=&quot;headerlink&quot; title=&quot;Mybatis&quot;&gt;&lt;/a&gt;Mybatis&lt;/h1&gt;&lt;h2 id=&quot;1、JDBC编程的步骤&quot;&gt;&lt;a href=&quot;#1、JDBC编程的步骤&quot; class=&quot;he</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>rabbit_mq-blog</title>
     <link href="http://example.com/2023/11/11/rabbit-mq-blog/"/>
     <id>http://example.com/2023/11/11/rabbit-mq-blog/</id>
     <published>2023-11-11T10:00:19.000Z</published>
-    <updated>2023-11-11T10:04:21.833Z</updated>
+    <updated>2023-11-11T10:19:21.588Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p><p><img lazyload src="/images/loading.svg" data-src="/../rabbit-mq-blog/image-20231111180339445.png" alt="image-20231111180339445"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h1><h2 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h2><p>message queue：消息队列</p><p><img lazyload src="/images/loading.svg" data-src="/2023/11/11/rabbit-mq-blog/image-20231111181400986.png" alt="image-20231111181400986"></p>]]></content>
     
     
       
