@@ -1,6 +1,5 @@
-http://example.com/2023/11/12/mybatis-blog/
 http://example.com/2023/11/12/rabbitmq-blog/
-http://example.com/2023/11/11/rabbit-mq-blog/
+http://example.com/2023/11/12/mybatis-blog/
 http://example.com/2023/11/06/redis-blog/
 http://example.com/2023/11/07/design-blog/
 http://example.com/2023/10/31/docker-blog/
