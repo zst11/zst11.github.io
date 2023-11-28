@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://example.com/2023/11/12/rabbitmq-blog/image-20231112194502785.png">
 <meta property="og:image" content="http://example.com/2023/11/12/rabbitmq-blog/image-20231112194516579.png">
 <meta property="article:published_time" content="2023-11-12T11:39:30.000Z">
-<meta property="article:modified_time" content="2023-11-12T15:31:58.960Z">
+<meta property="article:modified_time" content="2023-11-19T16:00:40.948Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2023/11/12/rabbitmq-blog/image-20231112194201597.png">
@@ -233,7 +233,7 @@
                     <div class="author flex items-center">
                         <span class="name text-default-text-color text-lg font-semibold">The Redefine Team</span>
                         
-                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv1</span>
+                            <span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv2</span>
                         
                     </div>
                     <div class="meta-info">
@@ -247,8 +247,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2023-11-12 23:31:58</span>
-            <span class="mobile">2023-11-12 23:31:58</span>
+            <span class="desktop">2023-11-20 00:40</span>
+            <span class="mobile">2023-11-20 00:40</span>
             <span class="hover-info">Updated</span>
         </span>
     
@@ -337,9 +337,6 @@
 <p>Direct：定向，交给指定routing key的队列</p>
 </blockquote>
 <p><img lazyload src="/images/loading.svg" data-src="/2023/11/12/rabbitmq-blog/image-20231112194502785.png" alt="image-20231112194502785"></p>
-<blockquote>
-<p>Direct：定向，交给指定routing key的队列	</p>
-</blockquote>
 <h2 id="Topic-通配符模式"><a href="#Topic-通配符模式" class="headerlink" title="Topic 通配符模式"></a>Topic 通配符模式</h2><blockquote>
 <p>Topic：通配，交给符合routing pattern（路由模式）的队列</p>
 </blockquote>
@@ -358,6 +355,7 @@
 <li>绑定队列与exchange</li>
 </ul>
 </li>
+<li>直接注入RabbitTemplate来完成消息发送</li>
 </ul>
 <p>消费者：</p>
 <ul>
@@ -365,6 +363,53 @@
 <li>配置文件</li>
 <li>编写监听类</li>
 </ul>
+<h2 id="消息可靠性投递"><a href="#消息可靠性投递" class="headerlink" title="消息可靠性投递"></a>消息可靠性投递</h2><p>消息的投递过程</p>
+<p>producer—》rabbitmq broker—-》exchange—–》queue—-》consumer</p>
+<h3 id="confirm-确认模式"><a href="#confirm-确认模式" class="headerlink" title="confirm 确认模式"></a>confirm 确认模式</h3><blockquote>
+<p>生产者到exchange</p>
+</blockquote>
+<p>1、事务机制：在一条消息发送之后将发送端阻塞，等待rabbitmq的回应，之后才能继续发送下一条消息，性能差</p>
+<p>2、确认机制：消息成功发送到交换机之后，rabbitmq就会发送一条ack给生产者，没有成功到达就会发送一条nack消息，提示失败；在生产端会提供一个回调方法，当服务端收到了一条或者多条消息后，生产者就会回调这个方法，根据具体方法对消息进行后续处理，如重新发送，记录日志等。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">    rabbitmq:   </span><br><span class="line">        ##开启 confirm 确认机制</span><br><span class="line">        publisher-confirms: <span class="literal">true</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="路由不可达"><a href="#路由不可达" class="headerlink" title="路由不可达"></a>路由不可达</h3><blockquote>
+<p>exchange到queue</p>
+</blockquote>
+<p>1、Return消息机制：提供一个回调函数ReturnCallback，当消息从exchange到queue失败就会回调这个方法</p>
+<p>2、备份交换机：当没有匹配到queue时，就会将信息发送到对应交换机的queue</p>
+<h3 id="消费者手动消息确认"><a href="#消费者手动消息确认" class="headerlink" title="消费者手动消息确认"></a>消费者手动消息确认</h3><blockquote>
+<p>消费者收到消息但还没处理MQ就宕机了，导致消息丢失，因为默认采用自动ack，一旦收到消息就会告诉mq 已经处理好了，将其改为手动，只有当消费者处理完才回复</p>
+</blockquote>
+<h3 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h3><p>当rabbitmq服务器突然异常导致重启，消息将会丢失，mq提供了持久化，将内存中的数据持久化到硬盘中</p>
+<p>1、queue持久化</p>
+<p>2、交换机持久化</p>
+<p>3、消息设置持久化</p>
+<h3 id="镜像队列"><a href="#镜像队列" class="headerlink" title="镜像队列"></a>镜像队列</h3><p>将queue镜像到集群其他结点上</p>
+<h2 id="消费端限流"><a href="#消费端限流" class="headerlink" title="消费端限流"></a>消费端限流</h2><p>当rabbitmq中的积压了大量的消息之后，队列里的消息会大量涌入消费端，可能导致消费端崩溃，这时候需对消费端限流</p>
+<p>Spring RabbitMQ提供了prefetch可以设置单个请求处理的消息条数，当消息达到设置的条数时就会阻塞，知道消息ack</p>
+<blockquote>
+<div class="highlight-container" data-rel="Properties"><figure class="iseeu highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##在单个请求中处理的消息个数，unack的最大数量</span></span><br><span class="line"><span class="attr">spring.rabbitmq.listener.simple.prefetch</span>=<span class="string">2</span></span><br></pre></td></tr></table></figure></div>
+</blockquote>
+<h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><p>消费失败的消息存放的队列</p>
+<p>失败原因：</p>
+<ul>
+<li>消息被拒绝并且没有重新入队</li>
+<li>超时未消费</li>
+<li>达到队列最大长度</li>
+</ul>
+<p>当普通队列中有死信的时候，rmq会自动将信息重新发布设置到死信交换机，之后被路由到死信队列。</p>
+<h2 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a>延迟队列</h2><p>当消息发送以后不想让消费者立刻拿到，等待特定时间后，消费者才能拿到</p>
+<h2 id="消息重复消费"><a href="#消息重复消费" class="headerlink" title="消息重复消费"></a>消息重复消费</h2><p>两个原因：1、生产时消息重复；2、消费时消息重复</p>
+<p>生产者发送消息给MQ，MQ确认的时候出现网络波动，生产者没有收到确认，然后又在发送了一条重复的消息</p>
+<p>消费者消费成功后给MQack，出现了网络波动，MQ没有收到ack，之后MQ又给了消费者一条之前的消息，导致消费重复</p>
+<p>解决办法：发送消息时让每个消息携带一个全局唯一的id，在进行消费先判断id；</p>
+<p>1、消费者根据id去redis中查询</p>
+<p>2、如果不存在，则正常消费，消费完写入redis</p>
+<p>3、如果存在则说明被消费过了，直接丢弃</p>
+<h2 id="TTL"><a href="#TTL" class="headerlink" title="TTL"></a>TTL</h2><p>存活时间</p>
+<p>创建指定队列得ttl，从消息入队列时开始计算，超过消息就会被移除</p>
+<h2 id="消费者拿到消息两种方式"><a href="#消费者拿到消息两种方式" class="headerlink" title="消费者拿到消息两种方式"></a>消费者拿到消息两种方式</h2><p>推</p>
+<p>拉</p>
 
         </div>
 
@@ -379,7 +424,7 @@
         
             <li>
                 <strong>Updated at
-                    :</strong> 2023-11-12 23:31:58
+                    :</strong> 2023-11-20 00:00:40
             </li>
         
         <li>
@@ -406,6 +451,21 @@
 
         
             <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                        rel="prev"
+                        href="/2023/11/13/SpringXxxx-blog/"
+                        >
+                            <span class="left arrow-icon flex justify-center items-center">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex justify-center items-center">
+                                <span class="post-nav-title-item">SpringXxxx-blog</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
                 
                 
                     <div class="article-next">
@@ -480,7 +540,7 @@
     <div class="post-toc">
         <div class="toc-title">On this page</div>
         <div class="page-title">rabbitmq-blog</div>
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ%E5%AD%A6%E4%B9%A0"><span class="nav-text">RabbitMQ学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MQ"><span class="nav-text">MQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ%EF%BC%88Erlang%E8%AF%AD%E8%A8%80%EF%BC%89"><span class="nav-text">RabbitMQ（Erlang语言）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F-hello-world"><span class="nav-text">简单模式 hello world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97-Work-Queues"><span class="nav-text">工作队列 Work Queues</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pub-Sub-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85"><span class="nav-text">Pub&#x2F;Sub 发布订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Routing-%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F"><span class="nav-text">Routing 路由模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Topic-%E9%80%9A%E9%85%8D%E7%AC%A6%E6%A8%A1%E5%BC%8F"><span class="nav-text">Topic 通配符模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8spring-boot%E6%95%B4%E5%90%88rabbitmq"><span class="nav-text">使用spring boot整合rabbitmq</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ%E5%AD%A6%E4%B9%A0"><span class="nav-text">RabbitMQ学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MQ"><span class="nav-text">MQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ%EF%BC%88Erlang%E8%AF%AD%E8%A8%80%EF%BC%89"><span class="nav-text">RabbitMQ（Erlang语言）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E6%A8%A1%E5%BC%8F-hello-world"><span class="nav-text">简单模式 hello world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97-Work-Queues"><span class="nav-text">工作队列 Work Queues</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pub-Sub-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85"><span class="nav-text">Pub&#x2F;Sub 发布订阅</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Routing-%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F"><span class="nav-text">Routing 路由模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Topic-%E9%80%9A%E9%85%8D%E7%AC%A6%E6%A8%A1%E5%BC%8F"><span class="nav-text">Topic 通配符模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8spring-boot%E6%95%B4%E5%90%88rabbitmq"><span class="nav-text">使用spring boot整合rabbitmq</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%8A%95%E9%80%92"><span class="nav-text">消息可靠性投递</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#confirm-%E7%A1%AE%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="nav-text">confirm 确认模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%B8%8D%E5%8F%AF%E8%BE%BE"><span class="nav-text">路由不可达</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E6%89%8B%E5%8A%A8%E6%B6%88%E6%81%AF%E7%A1%AE%E8%AE%A4"><span class="nav-text">消费者手动消息确认</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">持久化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E9%98%9F%E5%88%97"><span class="nav-text">镜像队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E7%AB%AF%E9%99%90%E6%B5%81"><span class="nav-text">消费端限流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="nav-text">死信队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%E9%98%9F%E5%88%97"><span class="nav-text">延迟队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9"><span class="nav-text">消息重复消费</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TTL"><span class="nav-text">TTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E6%8B%BF%E5%88%B0%E6%B6%88%E6%81%AF%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-text">消费者拿到消息两种方式</span></a></li></ol></li></ol>
 
     </div>
 </div>
