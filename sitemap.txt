@@ -1,7 +1,8 @@
 http://example.com/2023/11/28/mongodb-blog/
+http://example.com/2023/11/30/miaosha-blog/
+http://example.com/2023/11/06/redis-blog/
 http://example.com/2023/11/24/linux-cmd/
 http://example.com/2023/11/16/java-mianshi-blog/
-http://example.com/2023/11/06/redis-blog/
 http://example.com/2023/11/12/rabbitmq-blog/
 http://example.com/2023/11/13/SpringXxxx-blog/
 http://example.com/2023/11/07/design-blog/
